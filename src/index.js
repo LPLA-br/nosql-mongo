@@ -1,12 +1,14 @@
-/* primeiro contato com o mongodb
- * */
+/*************************************
+ * primeiro contato com o mongodb
+ * banco de dados não relacional
+ ************************************/
 
 const { MongoClient, ServerApiVersion } = require("mongodb");
 
-const uri = "mongodb://aluno:123@127.0.0.1:27017/?maxPoolSize=20&w=majority";
+const uri = "mongodb://fodao:123@172.17.0.2:27017";
 
 const client = new MongoClient( uri ,
-	{
+{
 	serverApi:
 	{
 		version: ServerApiVersion.v1,
@@ -20,11 +22,15 @@ async function run()
 	try
 	{
 		await client.connect();
-		await client.db( "aluno" ).command( { ping: 1 } );
 
+		await client.db("bancodadipesadae").command( { ping: 1 } );
+		console.log("ping sucesso");
+		await client.db("bancodadipesadae").collection('notas').findOne( { titulo:'' } );
 	}
-	catch
+	finally
 	{
-		console.log('albarroou');
+		await client.close();
 	}
 }
+
+run().catch( console.dir );
